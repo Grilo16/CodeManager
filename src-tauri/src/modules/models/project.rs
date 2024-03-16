@@ -1,6 +1,8 @@
 use rusqlite::ToSql;
+use serde::Serialize;
 
 #[derive(Debug)]
+#[derive(Serialize)]    
 pub struct Project {
     id: i64,
     name: String,
