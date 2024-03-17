@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { SelectCurrentPath, SelectInputPath, setInputPath } from "../../features";
+import { SelectCurrentPath, SelectInputPath, clearSelectedPath, setInputPath } from "../../features";
 import { ExplorerControls } from "./ExplorerControls";
 import styled from "styled-components";
 import { ArrowRightSvg, ArrowTopSvg } from "../../assets";
+import { useEffect } from "react";
 
 export const ExplorerNavBar = () => {
     
@@ -11,6 +12,10 @@ export const ExplorerNavBar = () => {
     const {moveUpDirectory, goToDirectory} = ExplorerControls()
     const inputPath = useSelector(SelectInputPath)
     const currentPath = useSelector(SelectCurrentPath)
+
+    useEffect(() => {
+      dispatch(clearSelectedPath())
+    }, [currentPath])
     
     const handlePathInput = (e) => {
         dispatch(setInputPath(e.target.value))

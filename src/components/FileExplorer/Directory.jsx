@@ -1,6 +1,6 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { setCurrentPathData } from "../../features";
+import { SelectSelectedPath, clearSelectedPath, setCurrentPathData, setSelectedPath } from "../../features";
 import { invoke } from "@tauri-apps/api/tauri";
 import { ExplorerControls } from "./ExplorerControls";
 import { FolderIconSvg } from "../../assets";
@@ -8,13 +8,21 @@ import { FolderIconSvg } from "../../assets";
 export const Directory = ({...props}) => {
     
     const {goToDirectory} = ExplorerControls()
+    const selectedPathData = useSelector(SelectSelectedPath)
+    const dispatch = useDispatch()
 
-    const handleClickDirectory = () => {
+    const handleOpenDirectory = () => {
         goToDirectory(props.path)
     }
 
+    const handleSelectDirectory = () => {
+        selectedPathData.index === props.index 
+        ? dispatch(clearSelectedPath())
+        : dispatch(setSelectedPath({index: props.index, path: props.path}))
+    }
+
     return (
-        <StyledDirectoryDiv onClick={handleClickDirectory} title={props.path}>
+        <StyledDirectoryDiv $selected={selectedPathData?.index === props.index} onClick={handleSelectDirectory} onDoubleClick={handleOpenDirectory} title={props.path}>
             <Wrapper>
                 <FolderIconSvg/>
                 <h3>{props.name}</h3>
@@ -34,6 +42,7 @@ flex-wrap: wrap;
 align-items: center;
 padding: 0.5rem;
 gap: 0.2rem;
+background-color: ${({$selected, theme}) => $selected ? theme.colors.cadetGrey : `white`};
 &:hover{
     background-color: ${({theme}) => theme.colors.cadetGrey}
 }

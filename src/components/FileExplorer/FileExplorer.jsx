@@ -12,9 +12,10 @@ import { SetOverflow } from "../../style";
 export const FileExplorer = () => {
   const directories = useSelector(SelectDirectories);
   const files = useSelector(SelectFiles);
+  
 
   const displayDirectories = directories?.map((directory, index) => (
-    <Directory key={index} {...directory} />
+    <Directory key={index} index={index} {...directory} />
   ));
   const displayFiles = files?.map((file, index) => (
     <File key={index} {...file} />

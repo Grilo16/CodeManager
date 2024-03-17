@@ -1,15 +1,24 @@
-import { useState } from "react";
-import { invoke } from "@tauri-apps/api/tauri";
-import { FileExplorer } from "./components";
-
+import { FileExplorer, Main, MyProjects } from "./components";
+import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom"
+import { ProjectDashboard } from "./pages";
 function App() {
-  const [greetMsg, setGreetMsg] = useState([]);
-  const [name, setName] = useState("");
-
 
 
   return (
-   <FileExplorer/>
+    <Router>
+      <nav style={{display: "flex", gap: "2rem"}}>
+        <Link to={"/explorer"}>File Explorer</Link>
+        <Link to={"/projects"}>Projects</Link>
+        <Link to={"/project-dashboard"}>Project dashboard</Link>
+      </nav>
+      <Main>
+        <Routes>
+          <Route element={<FileExplorer/>} path={"/explorer"}/>
+          <Route element={<MyProjects/>} path={"/projects"}/>
+          <Route element={<ProjectDashboard/>} path={"/project-dashboard"}/>
+        </Routes>
+      </Main>
+    </Router>
   );
 }
 

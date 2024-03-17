@@ -14,4 +14,4 @@ pub use self::file_explorer::Directory;
 pub use self::file_explorer::File;
 
 
-pub use self::controllers::{go_to_directory, move_up_directory, get_all_projects};
+pub use self::controllers::{go_to_directory, move_up_directory, create_new_project, update_project, get_all_projects, delete_project};
