@@ -19,15 +19,15 @@ export const PlaceholderForm = ({index, placeholder, toggle}) => {
         dispatch(setFieldValue({index: index, value: value}))
     }, [value])
 
-    return (
+    return placeholder ? (
         <>
-            <StyledLabel>{placeholder}</StyledLabel>
+            <StyledLabel>{placeholder}: </StyledLabel>
             <StyledInput required value={value} onChange={(e) => setValue(e.target.value)}/>
         </>
-    )
+    ) : null
 }
 
-const StyledLabel = styled.h1`
+const StyledLabel = styled.h2`
 justify-self: center;
 `
 

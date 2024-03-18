@@ -52,10 +52,10 @@ const displayFieldInputs = selectedTemplate?.editFields.map(
   }
 
   return selectedTemplate?.id ? (
-    <Wrapper as={"form"} theme={"light"} layout={"manual-grid"} overflowY={"scroll"} padding={".5rem"} templateColumns={"1fr 1fr"} placeItems={"stretch"} onSubmit={handleGenerateFile}>
+    <Wrapper as={"form"} theme={"light"} layout={"manual-grid"} autoRows={"min-content"} overflowY={"scroll"} padding={".5rem"} templateColumns={"1fr 1fr"} textAlign={"center"} placeItems={"center stretch"} onSubmit={handleGenerateFile}>
       <Button $gridColumn={"1/-1"}>Generate File</Button>
       <StyledLabel>Selected Template: </StyledLabel>
-      <h1>{selectedTemplate?.name}</h1>
+      <StyledLabel>{selectedTemplate?.name}</StyledLabel>
       <StyledLabel>Output file name: </StyledLabel>
       <StyledInput value={outputFileName} onChange={handleChangeOutputFileName}/>
       {displayFieldInputs}
@@ -63,7 +63,7 @@ const displayFieldInputs = selectedTemplate?.editFields.map(
   ) : <NoTemplateSelected/>
 };
 
-const StyledLabel = styled.h1`
+const StyledLabel = styled.h2`
 justify-self: center;
 
 `

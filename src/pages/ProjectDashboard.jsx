@@ -44,7 +44,10 @@ export const ProjectDashboard = () => {
             <Wrapper layout={"manual-grid"} templateRows={"22vh 69vh"} templateColumns={"1fr 1fr"} maxHeight={"auto"} >
                 <MyTemplates/>
                 <TemplateGenerator/>
-                <FileExplorer/>
+                <Wrapper theme={"dark"}>
+                    <h1>Open output folder</h1>
+                    <FileExplorer/>
+                </Wrapper>
                 <Wrapper layout={"manual-grid"} theme={"dark"} maxHeight={"100%"}>
                     <h1>Template preview</h1>
                     <Editor
