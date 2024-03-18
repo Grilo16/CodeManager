@@ -17,8 +17,8 @@ export const File = ({...props}) => {
 
 
     return (
-        <StyledFileDiv $selected={selectedFile?.index === props.index} onClick={handleSelectFile} title={props.path}>
-            <Wrapper>
+        <StyledFileDiv $selected={selectedFile?.index === props.index} onClick={handleSelectFile} title={props.path} as={"button"}>
+            <Wrapper >
                 <FileIconSvg/>
                 <h4>{props.name}</h4>
             </Wrapper>
@@ -28,17 +28,20 @@ export const File = ({...props}) => {
 }
 
 const StyledFileDiv = styled.div`
-    display: flex;
+display: flex;
 justify-content: space-between;
 flex-wrap: wrap;
 align-items: center;
 padding: 0.5rem;
 gap: 0.5rem;
+justify-content: stretch;
+min-width: 100%;
 background-color: ${({$selected, theme}) => $selected ? theme.colors.cadetGrey : `white`};
 &:hover{
     background-color: ${({theme}) => theme.colors.cadetGrey}
 }
 &  h1,  h2, h3 ,h4, p {
+    font-weight: 500;
     cursor: auto;
     -webkit-touch-callout: none;
     -webkit-user-select: none;

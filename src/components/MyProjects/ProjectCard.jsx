@@ -4,6 +4,7 @@ import { Button, Wrapper } from "../layout"
 import { clearSelectedProject, setAllProjects, setSelectedProject } from "../../features"
 import { useNavigate } from "react-router-dom"
 import { ExplorerControls } from "../FileExplorer/ExplorerControls"
+import styled from "styled-components"
 
 export const ProjectCard = ({id, name, path}) => {
     const dispatch = useDispatch()
@@ -45,7 +46,7 @@ export const ProjectCard = ({id, name, path}) => {
 
     return (
         <Wrapper theme={"light"} padding={"1rem"} layout={"manual-grid"} templateRows={"5rem auto"}>
-            <h1>{name}</h1>
+            <StyledH1>{name}</StyledH1>
             <Wrapper layout={"manual-grid"} gap={"1rem"} justifyContent={"center"} >
                 <Button onClick={handleGoFileFromTemplate}>File Generator</Button>
                 <Button onClick={handleGoTemplateFromFile}>Template Editor</Button>
@@ -54,3 +55,17 @@ export const ProjectCard = ({id, name, path}) => {
         </Wrapper>
     )
 }
+
+const StyledH1 = styled.h1`
+    
+    font-weight: 500;
+    cursor: auto;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+
+`

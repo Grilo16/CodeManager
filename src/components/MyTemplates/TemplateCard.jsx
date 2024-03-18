@@ -14,7 +14,7 @@ export const TemplateCard = ({id, name, edit_fields}) => {
     }
 
     return (
-            <Wrapper onClick={handleSelectTemplate} theme={"dark"} padding={"1rem"} layout={"flex"} justifyContent={"center"} >
+            <Wrapper as={"button"} onClick={handleSelectTemplate} theme={"dark"} padding={"1rem"} layout={"flex"} justifyContent={"center"} >
                 <h1>{name}</h1>
             </Wrapper>
     )
