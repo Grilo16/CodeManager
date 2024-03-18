@@ -4,17 +4,17 @@ export const appRoutesData = [
     {
         element: <pages.Home/>,
         path: "/",
-        label: "home",
+        label: "Dashboard",
     },
     {
         element: <pages.ProjectDashboard/>,
-        path: "/project-dashboard",
-        label: "Project Dashboard",
+        path: "/file-generator",
+        label: "File Generator",
     },
     {
         element: <pages.TemplatesDashboard/>,
-        path: "/templates-dashboard",
-        label: "Templates Dashboard",
+        path: "/template-editor",
+        label: "Template Editor",
     },
     // {
     //     element: <pages.TestPage/>,

@@ -45,9 +45,9 @@ fn get_template_by_id(id: i64) -> String {
         Ok(result_json) => result_json ,
         Err(err) => json!({"error" :  format!("{}", err)}).to_string()
     } 
-
-
 }
+
+
 
 #[tauri::command]
 fn save_new_template(name: String, contents: String, edit_fields: String) {
@@ -74,6 +74,19 @@ fn edit_template_by_id(id: i64, name: String, contents: String, edit_fields: Str
     let template = Template::new_with_id(id, name, Some(contents), edit_fields);
 
     match templates_repository.update_template(template) {
+        Ok(()) => print!("success"),
+        Err(err) => print!("{:?}", err)
+    }
+
+
+}
+#[tauri::command]
+fn delete_template_by_id(id: i64) {
+    let templates_repository = match TemplatesRepository::new() {
+        Ok(template_repository) => template_repository,
+        Err(err) => return print!("{:?}", err)
+    };
+    match templates_repository.delete_template_by_id(id) {
         Ok(()) => print!("success"),
         Err(err) => print!("{:?}", err)
     }
@@ -161,6 +174,7 @@ fn main() {
             generate_file_from_template,
             get_template_by_id,
             edit_template_by_id,
+            delete_template_by_id,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

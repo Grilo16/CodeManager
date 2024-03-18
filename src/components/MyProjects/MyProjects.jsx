@@ -58,7 +58,7 @@ export const MyProjects = () => {
     // ));
 
     return (
-        <Wrapper theme={"dark"} layout={"auto-grid"} minColumnSize={"16rem"} padding={"1rem"} overflowY={"scroll"} autoRows={"16rem"}>
+        <Wrapper theme={"dark"} layout={"auto-grid"} minColumnSize={"16rem"}  overflowY={"scroll"} autoRows={"16rem"}>
             {displayProjects}
         </Wrapper>
         )

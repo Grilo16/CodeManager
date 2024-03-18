@@ -12,6 +12,7 @@ export const TemplatesDashboard = () => {
     const dispatch = useDispatch()
 
     const editorRef = useRef(null)
+    const nameInputRef = useRef(null)
     
     const {goToDirectory} = ExplorerControls()    
     const [templateName, setTemplateName] = useState("")
@@ -36,12 +37,24 @@ const handleGetAllTemplates = async () => {
     dispatch(clearSelectedTemplate())
     editorRef.current.setValue("")
     setEditFields([])
+    setTemplateName("")
+    setNewPlaceholder("")
+
 }
 const handleSaveNewTemplate = async () => {
     await invoke("save_new_template", TemplateData)
     handleGetAllTemplates()
 }
-
+const handleDeleteTemplate = async () => {
+    const confirmation = await confirm(
+        'Are you sure?',
+        { title: 'Tauri', type: 'warning' }
+      );
+    if (confirmation){
+        await invoke("delete_template_by_id", {id: selectedTemplate.id})
+        handleGetAllTemplates()
+    }
+}
 
 const handleSaveEditedTemplate = async () => {
     await invoke("edit_template_by_id", {id: selectedTemplate.id ,...TemplateData})
@@ -50,6 +63,8 @@ const handleSaveEditedTemplate = async () => {
 
     const handleAddNewField = () => {
         setEditFields(current => [...current, newPlaceholder])
+        setNewPlaceholder("")
+
     }
 
     const handleRemoveField = (field) => {
@@ -64,6 +79,9 @@ const handleSaveEditedTemplate = async () => {
         editorRef.current.setValue(fileContents)
         dispatch(clearSelectedTemplate())
         setEditFields([])
+        setTemplateName("")
+        nameInputRef.current.focus()
+
     }
 
     const handleDisplayTemplateById = async () => {
@@ -73,6 +91,8 @@ const handleSaveEditedTemplate = async () => {
         setEditFields(fileContents.edit_fields.split(", "))
         setTemplateName(selectedTemplate.name)
     }
+
+   
 
     const handleEditorDidMount = (editor, monaco) => {
         editorRef.current = editor
@@ -98,10 +118,9 @@ const handleSaveEditedTemplate = async () => {
 
     return (
         <Main theme={"dark"} layout={"manual-grid"} >
-        <h1>templates dashboard</h1>
         <Wrapper layout={"manual-grid"} templateColumns={"1fr 2fr 1fr"}>
 
-            <Wrapper theme={"dark"} layout={"manual-grid"} templateRows={"20vh auto"} maxHeight={"88.5vh"}>
+            <Wrapper theme={"dark"} layout={"manual-grid"} templateRows={"20vh auto"} maxHeight={"93vh"}>
                 <MyTemplates/>
                 <FileExplorer/>
             </Wrapper>
@@ -113,16 +132,27 @@ const handleSaveEditedTemplate = async () => {
             onMount={handleEditorDidMount}
             onChange={(value, event) => setContent(value)}
             />
-            <Wrapper theme={"light"} layout={"manual-grid"} placeItems={"center"} templateRows={"5rem 10rem min-content auto"} maxHeight={"61rem"}>
+            <Wrapper theme={"light"} layout={"manual-grid"} placeItems={"center"} templateRows={"5rem 5rem 10rem min-content auto"} maxHeight={"93vh"}>
+
                 {
                     selectedTemplate.id
-                    ? <Button onClick={handleSaveEditedTemplate}>Save Edits</Button>
+                    ? <Wrapper layout={"flex"} gap={"1rem"}>
+                    <Button onClick={handleSaveEditedTemplate}>Save Edits</Button>
+                        <Button onClick={handleDeleteTemplate}>Delete template</Button>
+                </Wrapper>
                     : selectedFile.path 
                     ? <Button onClick={handleSaveNewTemplate}>Save New Template</Button>
                     : <h1>Select a template or file</h1>
                 }
 
-                 <Wrapper layout={"flex-column"} padding={"5rem"} gap={"1rem"} alignItems={"stretch"} textAlign={"center"}>
+                <Wrapper layout={"flex-column"} alignItems={"center"} gap={"1rem"}>
+
+                    <h4>Template name</h4>
+                    <StyledInput ref={nameInputRef} autoFocus value={templateName} onChange={(e) => setTemplateName(e.target.value)}/>
+                </Wrapper>
+
+                    
+                <Wrapper layout={"flex-column"} alignItems={"center"} gap={"1rem"}>
                     <h4>new placeholder</h4>
                     <StyledInput value={newPlaceholder} onChange={(e) => setNewPlaceholder(e.target.value)}/>
                     <Button onClick={handleAddNewField}>add placeholder</Button>
@@ -132,11 +162,12 @@ const handleSaveEditedTemplate = async () => {
                 <Wrapper layout={"manual-grid"} templateColumns={"20rem 2rem"} autoRows={"min-content"} alignSelf={"start"} overflowY={"scroll"} height={"100%"} maxHeight={"100%"}>
 
                 {
-                    editFields.map((field, index) => 
-                      <>
-                            <StyledH1>{field}</StyledH1>
+                    editFields.map((field, index) => field ?
+                      <StyledDiv key={index}>
+                            <StyledH1 >{field}</StyledH1>
                             <h1 onClick={() => handleRemoveField(field)}>✘</h1>
-                      </>
+                      </StyledDiv>
+                      : null
                     )
                     
                 }
@@ -150,6 +181,11 @@ const handleSaveEditedTemplate = async () => {
         </Main>
     )
 };
+
+const StyledDiv = styled.div`
+    display: contents;
+
+`
 
 const StyledH1 = styled.h1`
     overflow: hidden;

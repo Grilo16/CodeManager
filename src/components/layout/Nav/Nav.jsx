@@ -21,6 +21,14 @@ padding-inline: 1rem;
 `
 
 const StyledLink = styled(Link)`
-color: ${({theme}) => theme.colors.white}
+padding: 0.5rem;
+background-color: dimgrey;
+color: ${({theme}) => theme.colors.white};
+border-radius: 5px;
+text-decoration: none;
+&:hover {
+    background-color: gainsboro;
+    color: ${({theme}) => theme.colors.jet};
 
+}
 `
