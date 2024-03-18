@@ -46,6 +46,15 @@ background-color: ${({$selected, theme}) => $selected ? theme.colors.cadetGrey :
 &:hover{
     background-color: ${({theme}) => theme.colors.cadetGrey}
 }
+&  h1,  h2, h3 ,h4, p {
+    cursor: auto;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 `
 const Wrapper = styled.div`
 display: flex;
