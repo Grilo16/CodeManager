@@ -33,13 +33,13 @@ export const ProjectCard = ({id, name, path}) => {
 
     const handleGoTemplateFromFile = () => {
         dispatch(setSelectedProject(project))
-        navigate("/templates-dashboard")
-
+        navigate("/template-editor")
+        
     }
-
+    
     const handleGoFileFromTemplate = () => {
         dispatch(setSelectedProject(project))
-        navigate("/project-dashboard")
+        navigate("/file-generator")
     }
   
 
