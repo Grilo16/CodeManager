@@ -27,7 +27,7 @@ export const CreateProject = () => {
     };
 
     return (
-        <Wrapper layout={"manual-grid"} templateRows={"auto 1fr"} gap={"0"}>
+        <Wrapper layout={"manual-grid"} templateRows={"14rem 1fr"} gap={"0"}>
             {
                 selectedDirectory.path
                 ? <NewProjectForm/>

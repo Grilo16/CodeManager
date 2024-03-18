@@ -19,22 +19,36 @@ export const ProjectCard = ({id, name, path}) => {
     }
 
     const handleDeleteProject = async () => {
-        const result = await handleInvoke("delete_project", {...project})
-        dispatch(clearSelectedProject())
-        getAllProjects()
+        const confirmation = await confirm(
+            'Are you sure?',
+            { title: 'Tauri', type: 'warning' }
+          );
+        if (confirmation){
+            const result = await handleInvoke("delete_project", {...project})
+            dispatch(clearSelectedProject())
+            getAllProjects()
+        }
     }
 
-    const handleSelectProject = () => {
+
+    const handleGoTemplateFromFile = () => {
+        dispatch(setSelectedProject(project))
+        navigate("/templates-dashboard")
+
+    }
+
+    const handleGoFileFromTemplate = () => {
         dispatch(setSelectedProject(project))
         navigate("/project-dashboard")
     }
+  
 
     return (
-        <Wrapper theme={"light"} padding={"1rem"} layout={"manual-grid"} templateRows={".7fr .2fr"}>
+        <Wrapper theme={"light"} padding={"1rem"} layout={"manual-grid"} templateRows={"5rem auto"}>
             <h1>{name}</h1>
-            
-            <Wrapper layout={"flex"} gap={"1rem"} justifyContent={"center"} >
-                <Button onClick={handleSelectProject}>Start</Button>
+            <Wrapper layout={"manual-grid"} gap={"1rem"} justifyContent={"center"} >
+                <Button onClick={handleGoFileFromTemplate}>File Generator</Button>
+                <Button onClick={handleGoTemplateFromFile}>Template Editor</Button>
                 <Button onClick={handleDeleteProject}>Delete</Button>
             </Wrapper>
         </Wrapper>

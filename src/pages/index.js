@@ -1,4 +1,4 @@
-export * from "./ProjectDashboard"
-export * from "./TestPage"
-export * from "./GenerateTemplatePage"
 export * from "./Home"
+export * from "./ProjectDashboard"
+export * from "./TemplatesDashboard"
+export * from "./TestPage"

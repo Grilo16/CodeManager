@@ -31,6 +31,13 @@ const TemplatesReducer = createSlice({
             state.selectedTemplate.editFields = edit_fields.split(", ")
         },
         
+        clearSelectedTemplate: (state, action) => {
+            state.selectedTemplate.id = null
+            state.selectedTemplate.name = ""
+            state.selectedTemplate.editFields = []
+            
+        },
+
         initiateFieldValues: (state, action) => {
             state.selectedTemplate.editFields.forEach((field, index) => state.fieldValues[index] = field)
         },
@@ -60,6 +67,7 @@ export const {
   clearFieldValues,
   setOutputFileName,
   clearOutputFileName,
+  clearSelectedTemplate
 } = TemplatesReducer.actions;
 export default TemplatesReducer.reducer
 

@@ -31,7 +31,7 @@ export const NewProjectForm = () => {
 
 
     return (
-        <Wrapper as={"form"} theme={"light"} margin={"1rem"} padding={"0.5rem"} layout={"manual-grid"} templateRows={"min-content 2rem min-content 3rem 2rem"} onSubmit={handleCreateProject}>
+        <Wrapper as={"form"} theme={"light"} padding={"0.5rem"} layout={"manual-grid"} templateRows={"min-content 2rem min-content 3rem 2rem"} onSubmit={handleCreateProject}>
         <h4>Project name</h4>
         <StyledInput ref={inputRef} type="text" value={newProjectData.name} onChange={(e) => dispatch(setNewProjectName(e.target.value))}/>
 

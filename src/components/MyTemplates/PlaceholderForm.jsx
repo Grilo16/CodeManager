@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { Wrapper } from "../layout"
 import { useDispatch, useSelector } from "react-redux"
-import { SelectFieldValues, SelectSelectedTemplate, clearFieldValues, setFieldValue } from "../../features"
+import { SelectFieldValues, SelectSelectedTemplate, clearFieldValues, setFieldValue, setOutputFileName } from "../../features"
 
-export const PlaceholderForm = ({index, placeholder}) => {
+export const PlaceholderForm = ({index, placeholder, toggle}) => {
 
     const dispatch = useDispatch()
     const [value, setValue] = useState("")
@@ -12,7 +12,8 @@ export const PlaceholderForm = ({index, placeholder}) => {
 
     useEffect(() => {
         setValue("")
-    }, [selectedTemplate])
+        dispatch(setOutputFileName(""))
+    }, [selectedTemplate, toggle])
 
     useEffect(() => {
         dispatch(setFieldValue({index: index, value: value}))
@@ -21,7 +22,7 @@ export const PlaceholderForm = ({index, placeholder}) => {
     return (
         <>
             <StyledLabel>{placeholder}</StyledLabel>
-            <StyledInput value={value} onChange={(e) => setValue(e.target.value)}/>
+            <StyledInput required value={value} onChange={(e) => setValue(e.target.value)}/>
         </>
     )
 }

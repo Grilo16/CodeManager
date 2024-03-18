@@ -18,6 +18,16 @@ fn initialize_database() -> Result<(), Error> {
 }
 
 #[tauri::command]
+fn read_file(path:String) -> String {
+    let file_contents = match fs::read_to_string(path) {
+            Ok(contents) => contents,
+            Err(err) => return format!("{:?}", err)
+        };
+
+        file_contents
+}
+
+#[tauri::command]
 fn get_template_by_id(id: i64) -> String {
     let templates_repository = match TemplatesRepository::new() {
         Ok(template_repository) => template_repository,
@@ -40,16 +50,6 @@ fn get_template_by_id(id: i64) -> String {
 }
 
 #[tauri::command]
-fn read_file(path:String) -> String {
-    let file_contents = match fs::read_to_string(path) {
-            Ok(contents) => contents,
-            Err(err) => return format!("{:?}", err)
-        };
-
-        file_contents
-}
-
-#[tauri::command]
 fn save_new_template(name: String, contents: String, edit_fields: String) {
     let templates_repository = match TemplatesRepository::new() {
         Ok(template_repository) => template_repository,
@@ -64,6 +64,23 @@ fn save_new_template(name: String, contents: String, edit_fields: String) {
     }
 }
 
+#[tauri::command]
+fn edit_template_by_id(id: i64, name: String, contents: String, edit_fields: String) {
+    let templates_repository = match TemplatesRepository::new() {
+        Ok(template_repository) => template_repository,
+        Err(err) => return print!("{:?}", err)
+    };
+
+    let template = Template::new_with_id(id, name, Some(contents), edit_fields);
+
+    match templates_repository.update_template(template) {
+        Ok(()) => print!("success"),
+        Err(err) => print!("{:?}", err)
+    }
+
+
+}
+ 
 #[tauri::command]
 fn get_all_templates() -> String {
     let template_repo = match TemplatesRepository::new() {
@@ -143,6 +160,7 @@ fn main() {
             get_all_templates,
             generate_file_from_template,
             get_template_by_id,
+            edit_template_by_id,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

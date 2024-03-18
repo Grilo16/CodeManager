@@ -20,14 +20,9 @@ export const ProjectDashboard = () => {
     const {id, name, path} = useSelector(SelectSelectedProject)
     const [editorData, setEditorData] = useState("")
     
-    const getAllTemplates = async () => {
-        const templatesResult = await handleInvoke("get_all_templates")
-        dispatch(setTemplates(templatesResult))
-    }
     
     useEffect(() => {
         !path ?  navigate("/") : goToDirectory(path)
-        templates.length ? null : getAllTemplates()
     }, [])
 
     useEffect(() => {
@@ -45,7 +40,7 @@ export const ProjectDashboard = () => {
     }
 
     return (
-        <Main theme={"dark"} layout={"manual-grid"} templateRows={"2rem 1fr"} maxHeight={"calc(100vh - 3rem)"} gap={0} >
+        <Main theme={"dark"} layout={"manual-grid"} templateRows={"2rem 1fr"} maxHeight={"calc(100vh - 3rem)"}>
             <h1>Project: {name}</h1>
             <Wrapper layout={"manual-grid"} templateRows={"20vh 69vh"} templateColumns={"1fr 1fr"} maxHeight={"auto"} >
                 <MyTemplates/>
