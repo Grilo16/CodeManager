@@ -29,7 +29,11 @@ body {
 #root {
     position: relative;
     height: inherit;
-    overflow: auto;
+    display: grid;
+    grid-template-rows: 3rem auto;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
 }
 
 h1,

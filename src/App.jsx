@@ -1,23 +1,16 @@
-import { FileExplorer, Main, MyProjects } from "./components";
-import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom"
-import { ProjectDashboard } from "./pages";
-function App() {
+import { Nav } from "./components";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
+import { appRoutesData } from "./utils";
 
+function App() {
+  const routes = appRoutesData.map((route, index)=> <Route key={index} {...route}/>)
 
   return (
     <Router>
-      <nav style={{display: "flex", gap: "2rem"}}>
-        <Link to={"/explorer"}>File Explorer</Link>
-        <Link to={"/projects"}>Projects</Link>
-        <Link to={"/project-dashboard"}>Project dashboard</Link>
-      </nav>
-      <Main>
+        <Nav/>
         <Routes>
-          <Route element={<FileExplorer/>} path={"/explorer"}/>
-          <Route element={<MyProjects/>} path={"/projects"}/>
-          <Route element={<ProjectDashboard/>} path={"/project-dashboard"}/>
+          {routes}
         </Routes>
-      </Main>
     </Router>
   );
 }

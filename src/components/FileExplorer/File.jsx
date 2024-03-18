@@ -1,10 +1,23 @@
 import styled from "styled-components"
 import { FileIconSvg } from "../../assets"
+import { SelectSelectedFile, clearSelectedPath, setSelectedFile } from "../../features"
+import { useDispatch, useSelector } from "react-redux"
 
 export const File = ({...props}) => {
 
+    const selectedFile = useSelector(SelectSelectedFile)
+
+    const dispatch = useDispatch()
+
+    const handleSelectFile = () => {
+        selectedFile?.index === props.index 
+        ? dispatch(clearSelectedPath())
+        : dispatch(setSelectedFile({index: props.index, path: props.path}))
+    }
+
+
     return (
-        <StyledFileDiv title={props.path}>
+        <StyledFileDiv $selected={selectedFile?.index === props.index} onClick={handleSelectFile} title={props.path}>
             <Wrapper>
                 <FileIconSvg/>
                 <h4>{props.name}</h4>
@@ -21,6 +34,7 @@ flex-wrap: wrap;
 align-items: center;
 padding: 0.5rem;
 gap: 0.5rem;
+background-color: ${({$selected, theme}) => $selected ? theme.colors.cadetGrey : `white`};
 &:hover{
     background-color: ${({theme}) => theme.colors.cadetGrey}
 }

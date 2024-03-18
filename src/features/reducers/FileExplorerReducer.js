@@ -8,7 +8,11 @@ const FileExplorerReducer = createSlice({
         currentPath: "E:\\My projects\\CodeManagerApp\\CodeManager\\src-tauri",
         directories: [],
         files: [],
-        selectedPath: {
+        selectedDirectory: {
+            index: null,
+            path: "",
+        },
+        selectedFile: {
             index: null,
             path: "",
         },
@@ -26,14 +30,25 @@ const FileExplorerReducer = createSlice({
             state.files = action.payload?.files
         },
 
-        setSelectedPath: (state, action) => {
-            state.selectedPath.index = action.payload.index
-            state.selectedPath.path = action.payload.path
+        setSelectedDirectory: (state, action) => {
+            state.selectedDirectory.index = action.payload.index
+            state.selectedDirectory.path = action.payload.path
+            state.selectedFile.index = null
+            state.selectedFile.path = ""
         },
-
+        
+        setSelectedFile: (state, action) => {
+            state.selectedFile.index = action.payload.index
+            state.selectedFile.path = action.payload.path
+            state.selectedDirectory.index = null
+            state.selectedDirectory.path = ""
+        },
+        
         clearSelectedPath: (state, actions) => {
-            state.selectedPath.index = null
-            state.selectedPath.path = ""
+            state.selectedDirectory.index = null
+            state.selectedDirectory.path = ""
+            state.selectedFile.index = null
+            state.selectedFile.path = ""
         },
 
         setDirectories: (state, action) => {
@@ -52,7 +67,8 @@ export const {
     setCurrentPathData,
     setDirectories,
     setFiles,
-    setSelectedPath,
+    setSelectedDirectory,
+    setSelectedFile,
     clearSelectedPath,
  } =
   FileExplorerReducer.actions;
@@ -63,4 +79,5 @@ export const SelectInputPath = state => state.fileExplorer.inputPath
 export const SelectCurrentPath = state => state.fileExplorer.currentPath
 export const SelectDirectories = state => state.fileExplorer.directories
 export const SelectFiles = state => state.fileExplorer.files
-export const SelectSelectedPath = state => state.fileExplorer.selectedPath
+export const SelectSelectedDirectory = state => state.fileExplorer.selectedDirectory
+export const SelectSelectedFile = state => state.fileExplorer.selectedFile

@@ -5,9 +5,9 @@ const ProjectsReducer = createSlice({
 
     initialState: {
         selectedProject: {
-            id: null,
-            name: "",
-            path: "",
+            id: 1,
+            name: "CodeManager App",
+            path: "E:\\My projects\\CodeManagerApp\\CodeManager",
         },
         newProjectData: {
             name: "",

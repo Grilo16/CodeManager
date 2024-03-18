@@ -54,7 +54,6 @@ const StyledDiv = styled.div`
     position: sticky;
     top: 0;
     background-color: ${({theme}) => theme.colors.jet};
-    padding: 0.5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;

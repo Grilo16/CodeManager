@@ -1,61 +1,68 @@
-import styled from "styled-components"
-import { FileExplorer } from "../components"
+import { FileExplorer, Main, MyTemplates, TemplateGenerator, Wrapper } from "../components"
 import { handleInvoke } from "../utils"
-import { SelectNewProjectData, SelectSelectedPath, setAllProjects, setNewProjectName, setNewProjectPath } from "../features"
+import { SelectSelectedProject, SelectSelectedTemplate, SelectTemplates, setTemplates } from "../features"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
+import { ExplorerControls } from "../components/FileExplorer/ExplorerControls"
+import { useNavigate } from "react-router-dom"
+import { Editor } from "@monaco-editor/react"
 
 export const ProjectDashboard = () => {
+
+    const editorRef = useRef(null)
     
-    const newProjectData = useSelector(SelectNewProjectData)
-    const selectedPathData = useSelector(SelectSelectedPath)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const {goToDirectory} = ExplorerControls()    
+
+    const selectedTemplate = useSelector(SelectSelectedTemplate)
+    const templates = useSelector(SelectTemplates)
+    const {id, name, path} = useSelector(SelectSelectedProject)
+    const [editorData, setEditorData] = useState("")
+    
+    const getAllTemplates = async () => {
+        const templatesResult = await handleInvoke("get_all_templates")
+        dispatch(setTemplates(templatesResult))
+    }
+    
+    useEffect(() => {
+        !path ?  navigate("/") : goToDirectory(path)
+        templates.length ? null : getAllTemplates()
+    }, [])
 
     useEffect(() => {
-        dispatch(setNewProjectPath(selectedPathData.path))
-    }, [selectedPathData])
+        selectedTemplate.id ? handleGetTemplateById() : null
 
-    const getAllProjects = async () => {
-        let projects = await handleInvoke("get_all_projects")
-        dispatch(setAllProjects(projects))
+    }, [selectedTemplate])
+
+    const handleEditorDidMount = (editor, monaco) => {
+        editorRef.current = editor
     }
 
-    const handleCreateProject = async () => {
-        let result = await handleInvoke("create_new_project", {...newProjectData})
-        getAllProjects()
+    const handleGetTemplateById = async () => {
+        let fileContents = await handleInvoke("get_template_by_id", {id: selectedTemplate?.id})
+        editorRef.current.setValue(fileContents.contents)       
     }
 
     return (
-        <PageWrapper>
-            <Wrapper>
-                <h1>project dashboard</h1>
-                <Wrapper>
-                    <h1>Create new project</h1>
-                    <div>
-            <h4>Project Name</h4>
-            <input type="text" value={newProjectData.name} onChange={(e) => dispatch(setNewProjectName(e.target.value))}/>
-
-            <h4>Project Path</h4>
-            {newProjectData.path ? <h5>{newProjectData.path}</h5> : <h5>Select a project directory</h5>}
-            
-            <button onClick={handleCreateProject}>Create</button>
-        </div>
-
+        <Main theme={"dark"} layout={"manual-grid"} templateRows={"2rem 1fr"} maxHeight={"calc(100vh - 3rem)"} gap={0} >
+            <h1>Project: {name}</h1>
+            <Wrapper layout={"manual-grid"} templateRows={"20vh 69vh"} templateColumns={"1fr 1fr"} maxHeight={"auto"} >
+                <MyTemplates/>
+                <TemplateGenerator/>
+                <FileExplorer/>
+                <Wrapper layout={"manual-grid"} theme={"dark"} maxHeight={"100%"}>
+                    <h1>Template preview</h1>
+                    <Editor
+                         theme="vs-dark"
+                         defaultLanguage="javascript"
+                         onMount={handleEditorDidMount}
+                         onChange={(value, event) => setEditorData(value)}
+                    />
                 </Wrapper>
-
             </Wrapper>
-            <FileExplorer/>
-        </PageWrapper>
+       
+        </Main>
     )
 }
 
-const PageWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 100vh;
-
-`
-const Wrapper = styled.div`
-    
-
-`

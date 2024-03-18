@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { SelectSelectedPath, clearSelectedPath, setCurrentPathData, setSelectedPath } from "../../features";
+import { SelectSelectedDirectory, clearSelectedPath, setSelectedDirectory } from "../../features";
 import { invoke } from "@tauri-apps/api/tauri";
 import { ExplorerControls } from "./ExplorerControls";
 import { FolderIconSvg } from "../../assets";
@@ -8,7 +8,7 @@ import { FolderIconSvg } from "../../assets";
 export const Directory = ({...props}) => {
     
     const {goToDirectory} = ExplorerControls()
-    const selectedPathData = useSelector(SelectSelectedPath)
+    const selectedDirectory = useSelector(SelectSelectedDirectory)
     const dispatch = useDispatch()
 
     const handleOpenDirectory = () => {
@@ -16,13 +16,13 @@ export const Directory = ({...props}) => {
     }
 
     const handleSelectDirectory = () => {
-        selectedPathData.index === props.index 
+        selectedDirectory.index === props.index 
         ? dispatch(clearSelectedPath())
-        : dispatch(setSelectedPath({index: props.index, path: props.path}))
+        : dispatch(setSelectedDirectory({index: props.index, path: props.path}))
     }
 
     return (
-        <StyledDirectoryDiv $selected={selectedPathData?.index === props.index} onClick={handleSelectDirectory} onDoubleClick={handleOpenDirectory} title={props.path}>
+        <StyledDirectoryDiv $selected={selectedDirectory?.index === props.index} onClick={handleSelectDirectory} onDoubleClick={handleOpenDirectory} title={props.path}>
             <Wrapper>
                 <FolderIconSvg/>
                 <h3>{props.name}</h3>

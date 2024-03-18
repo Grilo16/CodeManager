@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import {
+  SelectCurrentPath,
   SelectDirectories,
   SelectFiles,
 } from "../../features";
@@ -8,17 +9,23 @@ import { File } from "./File";
 import { ExplorerNavBar } from "./ExplorerNavBar";
 import styled from "styled-components";
 import { SetOverflow } from "../../style";
+import { useEffect } from "react";
+import { ExplorerControls } from "./ExplorerControls";
 
 export const FileExplorer = () => {
+  const currentPath = useSelector(SelectCurrentPath)
   const directories = useSelector(SelectDirectories);
   const files = useSelector(SelectFiles);
-  
+  const {goToDirectory} = ExplorerControls()
+  useEffect(() => {
+    goToDirectory(currentPath)
+  }, [])
 
   const displayDirectories = directories?.map((directory, index) => (
     <Directory key={index} index={index} {...directory} />
   ));
   const displayFiles = files?.map((file, index) => (
-    <File key={index} {...file} />
+    <File key={index} index={index} {...file} />
   ));
 
   return (
@@ -35,14 +42,13 @@ export const FileExplorer = () => {
 };
 
 const FileExplorerDiv = styled.div`
-background-color: green;
 display: grid;
 height: 100%;
+min-height: 20rem;
 grid-template-rows: 3rem 1fr;
 `
 const ExplorerWrapper= styled.div`
   background-color: ${({theme}) => theme.colors.jet};
-  padding: 0 1rem;
   overflow: hidden;
   
   
@@ -51,5 +57,5 @@ const ExplorerWrapperInner= styled.div`
   ${SetOverflow};
   background-color: white;
   border-radius: 5px;
-  height: calc(100% - 1rem); 
+  height: 100%; 
 `

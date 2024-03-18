@@ -91,6 +91,15 @@ impl ConnectionHandler {
         let stmt = self.connection.prepare(&query_string)?;
         Ok(stmt)
     }
+  
+    pub fn get_all_selected_columns(&self, table_name: &String, selected_columns: &str) -> Result<Statement> {
+        let query_string = format!(
+            "SELECT {} FROM {}", 
+            selected_columns, table_name
+        );
+        let stmt = self.connection.prepare(&query_string)?;
+        Ok(stmt)
+    }
 
 
     pub fn delete_by_id(&self, table_name: &str, id: i64) -> Result<()> {
