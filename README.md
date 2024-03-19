@@ -1,7 +1,8 @@
-# Tauri + React
+# Code Manager
 
-This template should help get you started developing with Tauri and React in Vite.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+In development
+Currently the app has a file explorer, Code editor and is able to create templates from files and subsequenly use those templates to create new files.
+Future updates will include : 
+Improvements to UI
+Automatic language detection on Code editor
+Automatic template placeholder detection
